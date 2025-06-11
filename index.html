@@ -1,0 +1,809 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BZN MX | Streetwear Premium</title>
+
+    <!-- CSS INTEGRADO -->
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Helvetica Neue', sans-serif;
+            background: #0f0f0f;
+            color: #eee;
+            line-height: 1.6;
+            scroll-behavior: smooth;
+        }
+
+        /* Header */
+        .hero {
+            text-align: center;
+            padding: 60px 20px;
+            background: #000;
+            border-bottom: 1px solid #1a1a1a;
+        }
+
+        .logo {
+            font-size: 3em;
+            font-weight: bold;
+            color: #fff;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            background: linear-gradient(45deg, #ffffff, #e67e22);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: gradientAnimation 4s ease infinite;
+        }
+
+        @keyframes gradientAnimation {
+            0% { background-position: 0% 50%; }
+            100% { background-position: 100% 50%; }
+        }
+
+        .hero p {
+            font-size: 1.1em;
+            color: #aaa;
+            margin-top: 10px;
+        }
+
+        /* Banner */
+        .banner {
+            text-align: center;
+            padding: 40px 20px;
+            background: #1a1a1a;
+            border-bottom: 1px solid #222;
+        }
+
+        .banner h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+        }
+
+        /* Filtro por categoría */
+        .filtro-categorias {
+            text-align: center;
+            padding: 20px;
+            background: #111;
+            position: sticky;
+            top: 0;
+            z-index: 999;
+        }
+
+        .filtro-categorias button {
+            background: #1a1a1a;
+            border: 1px solid #333;
+            padding: 8px 16px;
+            margin: 0 5px;
+            border-radius: 30px;
+            color: #ccc;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .filtro-categorias button:hover {
+            background: #222;
+            color: #e67e22;
+        }
+
+        /* Catálogo de productos */
+        .catalogo {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+            gap: 30px;
+            padding: 40px 20px;
+        }
+
+        .producto {
+            background: #1a1a1a;
+            border-radius: 10px;
+            overflow: hidden;
+            text-align: center;
+            transition: transform 0.3s ease;
+            padding: 15px;
+        }
+
+        .producto:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 15px rgba(255,255,255,0.05);
+        }
+
+        .producto-imagenes {
+            position: relative;
+            width: 100%;
+            height: 300px;
+            overflow: hidden;
+            border-radius: 8px;
+            margin-bottom: 15px;
+        }
+
+        .producto-imagenes img {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: auto;
+            opacity: 0;
+            transition: opacity 0.5s ease-in-out;
+            pointer-events: none;
+        }
+
+        .producto-imagenes .imagen-activa {
+            opacity: 1;
+            z-index: 1;
+        }
+
+        .producto-imagenes:hover img {
+            animation: cambiarImagenes 4s linear infinite;
+        }
+
+        @keyframes cambiarImagenes {
+            0%   { opacity: 1; z-index: 1; }
+            30%  { opacity: 1; z-index: 1; }
+            31%  { opacity: 0; z-index: 0; }
+            100% { opacity: 0; z-index: 0; }
+        }
+
+        .producto h3 {
+            font-size: 1.2em;
+            margin: 10px 0 5px;
+            color: #fff;
+        }
+
+        .precio {
+            font-weight: bold;
+            color: #ccc;
+            display: block;
+            margin-bottom: 10px;
+        }
+
+        .selector-talla,
+        .selector-color {
+            width: 100%;
+            margin: 5px 0;
+            padding: 8px 12px;
+            border-radius: 6px;
+            border: none;
+            background: #222;
+            color: #ccc;
+            font-size: 0.9em;
+            margin-bottom: 10px;
+        }
+
+        .btn-vermas {
+            background: transparent;
+            border: none;
+            color: #e67e22;
+            font-size: 0.9em;
+            cursor: pointer;
+            padding: 8px 12px;
+            transition: color 0.3s ease;
+        }
+
+        .btn-vermas:hover {
+            color: #d35400;
+        }
+
+        .btn-contacto {
+            display: inline-block;
+            background: #e67e22;
+            color: white;
+            padding: 10px 15px;
+            margin-top: 10px;
+            border-radius: 30px;
+            text-decoration: none;
+            transition: background 0.3s ease;
+        }
+
+        .btn-contacto:hover {
+            background: #d35400;
+        }
+
+        /* Carrito flotante */
+        .carrito-flotante {
+            position: fixed;
+            top: 100px;
+            right: 20px;
+            width: 300px;
+            background: #1a1a1a;
+            border: 1px solid #333;
+            border-radius: 10px;
+            padding: 20px;
+            z-index: 1001;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.4);
+            display: none;
+            animation: fadeInUp 0.4s ease-in-out forwards;
+        }
+
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .carrito-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .cerrar-carrito {
+            font-size: 1.2em;
+            color: #aaa;
+            background: transparent;
+            border: none;
+            cursor: pointer;
+            transition: color 0.3s ease;
+        }
+
+        .cerrar-carrito:hover {
+            color: #e67e22;
+        }
+
+        .lista-carrito {
+            list-style: none;
+            max-height: 200px;
+            overflow-y: auto;
+            margin-bottom: 15px;
+        }
+
+        .lista-carrito li {
+            padding: 5px 0;
+            border-bottom: 1px solid #333;
+            font-size: 0.9em;
+        }
+
+        .carrito-resumen {
+            text-align: center;
+        }
+
+        .btn-vaciar,
+        .btn-whatsapp-carrito {
+            background: #222;
+            color: #ccc;
+            padding: 8px 12px;
+            border: none;
+            border-radius: 30px;
+            font-size: 0.9em;
+            cursor: pointer;
+            margin: 5px 0;
+            width: 100%;
+        }
+
+        .btn-whatsapp-carrito {
+            background: #e67e22;
+            color: white;
+            font-weight: bold;
+        }
+
+        .btn-whatsapp-carrito:hover {
+            background: #d35400;
+        }
+
+        /* Botones flotantes */
+        .redes-flotantes {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            z-index: 1000;
+        }
+
+        .btn-social {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            font-size: 24px;
+            color: white;
+            text-decoration: none;
+            box-shadow: 0 5px 10px rgba(0,0,0,0.4);
+            transition: background 0.3s ease, transform 0.3s ease;
+        }
+
+        .btn-social:hover {
+            transform: scale(1.1);
+        }
+
+        .whatsapp {
+            background: #e67e22;
+        }
+
+        .instagram {
+            background: #333;
+        }
+
+        .carrito-icono {
+            background: #222;
+        }
+
+        .icono-red {
+            width: 24px;
+            height: 24px;
+            pointer-events: none;
+        }
+
+        /* Mensaje flotante */
+        .mensaje-flotante {
+            position: fixed;
+            bottom: 100px;
+            left: 20px;
+            max-width: 500px;
+            background: #1a1a1a;
+            color: #ccc;
+            padding: 15px 20px;
+            border-left: 3px solid #e67e22;
+            border-radius: 8px;
+            font-style: italic;
+            font-size: 0.9em;
+            z-index: 1001;
+            animation: deslizarIzquierda 0.5s ease-in-out;
+        }
+
+        @keyframes deslizarIzquierda {
+            from { transform: translateX(-100px); opacity: 0; }
+            to { transform: translateX(0); opacity: 1; }
+        }
+
+        .cerrar-mensaje {
+            position: absolute;
+            right: 15px;
+            top: 10px;
+            background: transparent;
+            border: none;
+            font-size: 1.2em;
+            color: #aaa;
+            cursor: pointer;
+            transition: color 0.3s ease;
+        }
+
+        .cerrar-mensaje:hover {
+            color: #e67e22;
+        }
+
+        /* Botón toggle mensaje */
+        .btn-toggle-mensaje {
+            position: fixed;
+            left: 20px;
+            bottom: 100px;
+            background: #e67e22;
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 30px;
+            font-size: 1em;
+            z-index: 1002;
+            cursor: pointer;
+            display: none;
+            animation: fadeIn 0.4s ease-in-out;
+        }
+
+        .btn-toggle-mensaje.activo {
+            display: block;
+        }
+
+        .btn-toggle-mensaje:hover {
+            background: #d35400;
+        }
+
+        /* Instagram feed */
+        .instagram-feed {
+            padding: 40px 20px;
+            background: #111;
+            text-align: center;
+        }
+
+        .instagram-gallery {
+            margin-top: 20px;
+        }
+
+        .instagram-gallery iframe {
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.4);
+        }
+
+        .instagram-feed h2 {
+            font-size: 1.5em;
+            color: #e67e22;
+            margin-bottom: 10px;
+        }
+
+        /* Footer */
+        .footer {
+            background: #000;
+            padding: 30px 20px;
+            text-align: center;
+            margin-top: 60px;
+        }
+
+        .footer-links {
+            margin-top: 10px;
+        }
+
+        .footer-links a {
+            color: #aaa;
+            text-decoration: none;
+            margin: 0 15px;
+            transition: color 0.3s ease;
+        }
+
+        .footer-links a:hover {
+            color: #e67e22;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .catalogo {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+
+            .producto-imagenes {
+                height: 300px;
+            }
+
+            .carrito-flotante {
+                width: 90%;
+                max-width: 300px;
+                top: 80px;
+                left: 10px;
+                right: auto;
+                padding: 15px;
+            }
+
+            .mensaje-flotante {
+                max-width: 85%;
+                left: 10px;
+                font-size: 0.8em;
+            }
+
+            .btn-toggle-mensaje {
+                left: 10px;
+                bottom: 80px;
+                font-size: 0.9em;
+                padding: 8px 12px;
+            }
+
+            .selector-talla,
+            .selector-color {
+                font-size: 0.8em;
+                padding: 6px 10px;
+            }
+
+            .btn-vermas {
+                font-size: 0.8em;
+            }
+
+            .btn-social {
+                width: 40px;
+                height: 40px;
+                font-size: 20px;
+            }
+
+            .icono-red {
+                width: 20px;
+                height: 20px;
+            }
+        }
+    </style>
+
+    <!-- SCRIPT INTEGRADO -->
+    <script>
+        let carrito = [];
+        let carritoVisible = false;
+        let mensajeVisible = true;
+
+        // Mostrar u ocultar carrito
+        function toggleCarrito() {
+            const carritoDiv = document.getElementById("carrito-flotante");
+            carritoVisible = !carritoVisible;
+            carritoDiv.style.display = carritoVisible ? "block" : "none";
+        }
+
+        // Agregar al carrito
+        function agregarAlCarrito(nombre, precio, talla = '', color = '') {
+            carrito.push({ nombre, precio, talla, color });
+            actualizarCarrito();
+        }
+
+        // Actualizar carrito
+        function actualizarCarrito() {
+            const lista = document.getElementById("lista-carrito");
+            const total = document.getElementById("total");
+            lista.innerHTML = "";
+            let totalPrecio = 0;
+
+            carrito.forEach((producto, index) => {
+                const li = document.createElement("li");
+                li.textContent = `${producto.nombre} - ${producto.precio}`;
+                if (producto.talla) li.innerHTML += `<br><small>Talla: ${producto.talla}</small>`;
+                if (producto.color) li.innerHTML += `<br><small>Color: ${producto.color}</small>`;
+                lista.appendChild(li);
+
+                totalPrecio += parseFloat(producto.precio.replace('$', ''));
+            });
+
+            total.textContent = totalPrecio.toFixed(2);
+        }
+
+        // Vaciar carrito
+        function vaciarCarrito() {
+            carrito = [];
+            actualizarCarrito();
+        }
+
+        // Enviar por WhatsApp
+        function enviarPorWhatsApp(e) {
+            e.preventDefault();
+
+            if (carrito.length === 0) {
+                alert("Tu carrito está vacío");
+                return;
+            }
+
+            let mensaje = "Hola, quiero hacer un pedido:\n\n";
+
+            carrito.forEach(p => {
+                mensaje += `- ${p.nombre} - ${p.precio}\n`;
+                if (p.talla) mensaje += `  Talla: ${p.talla}\n`;
+                if (p.color) mensaje += `  Color: ${p.color}\n`;
+            });
+
+            mensaje += "\n¿Me pueden dar más información sobre el envío y pago?";
+            const encoded = encodeURIComponent(mensaje);
+            window.open(`https://wa.me/529221458012?text=${encoded}`);
+        }
+
+        // Carrusel automático de imágenes
+        document.addEventListener("DOMContentLoaded", () => {
+            const productos = document.querySelectorAll(".producto-imagenes");
+
+            productos.forEach(producto => {
+                let images = producto.querySelectorAll("img");
+                let current = 0;
+
+                setInterval(() => {
+                    images.forEach(img => img.style.opacity = "0");
+                    images[current].style.opacity = "1";
+                    current = (current + 1) % images.length;
+                }, 3000);
+            });
+        });
+
+        // Filtro de productos
+        function filterProducts(category) {
+            const items = document.querySelectorAll('.producto');
+            items.forEach(item => {
+                if (category === 'all' || item.classList.contains(category)) {
+                    item.style.display = 'block';
+                } else {
+                    item.style.display = 'none';
+                }
+            });
+        }
+
+        // Cerrar mensaje flotante
+        function cerrarMensaje() {
+            const mensaje = document.querySelector(".mensaje-flotante");
+            const btnToggle = document.getElementById("btn-toggle-mensaje");
+            mensaje.style.display = "none";
+            btnToggle.style.display = "block";
+        }
+
+        // Volver a abrir el mensaje
+        function toggleMensaje() {
+            const mensaje = document.querySelector(".mensaje-flotante");
+            const btnToggle = document.getElementById("btn-toggle-mensaje");
+            mensaje.style.display = "block";
+            btnToggle.style.display = "none";
+        }
+    </script>
+</head>
+<body>
+
+    <!-- HEADER -->
+    <header class="hero">
+        <div class="logo">BZN MX</div>
+        <p>Streetwear Urbano | Temporada 2025</p>
+    </header>
+
+    <!-- BANNER -->
+    <section class="banner">
+        <h1>TIME FRESH</h1>
+        <p>Diseños únicos, tejidos gruesos y colores oscuros.</p>
+    </section>
+
+    <!-- FILTRO POR CATEGORÍA -->
+    <div class="filtro-categorias">
+        <button onclick="filterProducts('all')">Todas</button>
+        <button onclick="filterProducts('hoddie')">Hoddies</button>
+        <button onclick="filterProducts('pantalon')">Pants</button>
+        <button onclick="filterProducts('camiseta')">Camisetas</button>
+    </div>
+
+    <!-- CATÁLOGO DE PRODUCTOS -->
+    <main id="catalogo" class="catalogo">
+
+        <!-- HODDIE REVENGUE -->
+        <div class="producto hoddie">
+            <div class="producto-imagenes">
+                <img src="images/hoddie-frontal.webp" alt="Producto 1" class="imagen-activa">
+                <img src="images/hoddie-trasera.webp" alt="Producto 2">
+                <img src="images/hoddie-detalle.webp" alt="Producto 3">
+            </div>
+            <h3>Hoddie Oversize Negro "REVENGUE"</h3>
+            <p>$689.00 c/u</p>
+            
+            <!-- Selector de talla -->
+            <select class="selector-talla" onchange="this.setAttribute('data-talla', this.value);">
+                <option value="">Talla</option>
+                <option value="S">S</option>
+                <option value="M">M</option>
+                <option value="L">L</option>
+                <option value="XL">XL</option>
+            </select>
+
+            <!-- Botón para agregar al carrito -->
+            <button onclick="agregarAlCarrito(
+                'Hoddie Oversize Negro REVENGUE',
+                '$689.00',
+                this.parentNode.querySelector('.selector-talla').value
+            )" class="btn-vermas">➕ Agregar al carrito</button>
+
+            <!-- Botón WhatsApp -->
+            <a href="#" onclick="agregarAlCarrito( 
+                'Hoddie Oversize Negro REVENGUE',
+                '$689.00',
+                'N/A'
+            )" class="btn-contacto whatsapp">💬 WhatsApp</a>
+        </div>
+
+        <!-- PANTALÓN NIGHT RIDER -->
+        <div class="producto pantalon">
+            <div class="producto-imagenes">
+                <img src="images/pans-nike-frontal.webp" alt="Producto 1" class="imagen-activa">
+                <img src="images/pans-nike-lado.webp" alt="Producto 2">
+            </div>
+            <h3>NIGHT RIDER - Pant</h3>
+            <p>$449.00 c/u</p>
+            
+            <!-- Selector de talla -->
+            <select class="selector-talla" onchange="this.setAttribute('data-talla', this.value);">
+                <option value="">Talla</option>
+                <option value="S">S</option>
+                <option value="M">M</option>
+                <option value="L">L</option>
+                <option value="XL">XL</option>
+            </select>
+
+            <!-- Botón para agregar al carrito -->
+            <button onclick="agregarAlCarrito(
+                'NIGHT RIDER - Pant',
+                '$449.00',
+                this.parentNode.querySelector('.selector-talla').value
+            )" class="btn-vermas">➕ Agregar al carrito</button>
+
+            <!-- Botón WhatsApp -->
+            <a href="#" onclick="agregarAlCarrito(
+                'NIGHT RIDER - Pant',
+                '$449.00',
+                'N/A'
+            )" class="btn-contacto whatsapp">💬 WhatsApp</a>
+        </div>
+
+        <!-- CAMISETA URBAN FLOW -->
+        <div class="producto camiseta">
+            <div class="producto-imagenes">
+                <img src="images/camiseta-frontal.webp" alt="Producto 1" class="imagen-activa">
+                <img src="images/camiseta-trasera.webp" alt="Producto 2">
+            </div>
+            <h3>Urban Flow Cami</h3>
+            <p>$389.00 c/u</p>
+            
+            <!-- Selector de talla -->
+            <select class="selector-talla" onchange="this.setAttribute('data-talla', this.value);">
+                <option value="">Talla</option>
+                <option value="S">S</option>
+                <option value="M">M</option>
+                <option value="L">L</option>
+                <option value="XL">XL</option>
+            </select>
+
+            <!-- Selector de color -->
+            <select class="selector-color" onchange="this.setAttribute('data-color', this.value);">
+                <option value="">Color</option>
+                <option value="Negro">Negro</option>
+                <option value="Gris Oscuro">Gris Oscuro</option>
+                <option value="Blanco">Blanco</option>
+            </select>
+
+            <!-- Botón para agregar al carrito -->
+            <button onclick="agregarAlCarrito(
+                'Urban Flow Cami',
+                '$389.00',
+                this.parentNode.querySelector('.selector-talla').value,
+                this.parentNode.querySelector('.selector-color').value
+            )" class="btn-vermas">➕ Agregar al carrito</button>
+
+            <!-- Botón WhatsApp -->
+            <a href="#" onclick="agregarAlCarrito(
+                'Urban Flow Cami',
+                '$389.00',
+                'N/A',
+                'N/A'
+            )" class="btn-contacto whatsapp">💬 WhatsApp</a>
+        </div>
+
+    </main>
+
+    <!-- INSTAGRAM FEED -->
+    <section class="instagram-feed">
+        <h2>Síguenos en Instagram</h2>
+        <div class="instagram-gallery">
+            <iframe 
+                src="https://www.instagram.com/reel/DJSTVNsp7jD/embed"  
+                scrolling="no" 
+                frameborder="0" 
+                allowtransparency="true" 
+                style="width: 100%; height: 300px; border: none;"></iframe>
+        </div>
+    </section>
+
+    <!-- CARRO DE COMPRAS FLOTANTE -->
+    <div id="carrito-flotante" class="carrito-flotante">
+        <div class="carrito-header">
+            <h3>Tu carrito</h3>
+            <button onclick="toggleCarrito()" class="cerrar-carrito">✕</button>
+        </div>
+        <ul id="lista-carrito" class="lista-carrito"></ul>
+        <div class="carrito-resumen">
+            <p><strong>Total:</strong> $<span id="total">0</span>.00</p>
+            <button onclick="vaciarCarrito()" class="btn-vaciar">🗑️ Vaciar</button>
+            <a href="#" onclick="enviarPorWhatsApp(event)" class="btn-whatsapp-carrito">Enviar por WhatsApp</a>
+        </div>
+    </div>
+
+    <!-- MENSAJE FLOTANTE -->
+    <div id="mensaje-flotante" class="mensaje-flotante">
+        <p>"Todos nuestros productos son personalizables. El costo puede variar según diseño, tela o detalles solicitados."</p>
+        <button class="cerrar-mensaje" onclick="cerrarMensaje()">×</button>
+    </div>
+
+    <!-- BOTÓN PARA VOLVER A ABRIR MENSAJE -->
+    <button id="btn-toggle-mensaje" class="btn-toggle-mensaje" onclick="toggleMensaje()">
+        📝 Mostrar mensaje
+    </button>
+
+    <!-- BOTONES FLOTANTES -->
+    <div class="redes-flotantes">
+        <a href="https://wa.me/529221458012"  target="_blank" class="btn-social whatsapp">
+            <img src="images/whatsapp.png" alt="WhatsApp" class="icono-red">
+        </a>
+        <a href="https://www.instagram.com/bzn_clothing"  target="_blank" class="btn-social instagram">
+            <img src="images/instagram.png" alt="Instagram" class="icono-red">
+        </a>
+        <button onclick="toggleCarrito()" class="btn-social carrito-icono">
+            <span>🛒</span>
+        </button>
+    </div>
+
+    <!-- FOOTER -->
+    <footer class="footer">
+        <p>&copy; 2025 BZN MX. Todos los derechos reservados.</p>
+        <div class="footer-links">
+            <a href="#">Políticas de privacidad</a>
+            <a href="#">Términos y condiciones</a>
+        </div>
+    </footer>
+
+</body>
+</html>
