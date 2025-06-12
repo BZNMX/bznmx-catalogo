@@ -24,13 +24,13 @@
         /* Header */
         .hero {
             text-align: center;
-            padding: 60px 20px;
+            padding: 40px 20px;
             background: #000;
             border-bottom: 1px solid #1a1a1a;
         }
 
         .logo {
-            font-size: 3em;
+            font-size: 2em;
             font-weight: bold;
             color: #fff;
             text-transform: uppercase;
@@ -39,6 +39,7 @@
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             animation: gradientAnimation 4s ease infinite;
+            text-shadow: 0 0 10px #fff;
         }
 
         @keyframes gradientAnimation {
@@ -47,56 +48,100 @@
         }
 
         .hero p {
-            font-size: 1.1em;
+            font-size: 1em;
             color: #aaa;
             margin-top: 10px;
+        }
+
+        /* Quienes somos */
+        .quienes-somos {
+            background: #1a1a1a;
+            padding: 0;
+            margin: 40px 0 0 0;
+            text-align: center;
+            transition: all 0.4s ease;
+        }
+
+        .quienes-somos h2 {
+            font-size: 1.6em;
+            margin: 20px 0 10px;
+            color: #e67e22;
+            cursor: pointer;
+        }
+
+        .quienes-somos p {
+            font-style: italic;
+            color: #ccc;
+            font-size: 0.9em;
+            line-height: 1.6;
+            padding: 0 20px;
+            max-height: 0;
+            overflow: hidden;
+            opacity: 0;
+            transition: all 0.4s ease;
+        }
+
+        .quienes-somos.activo p {
+            max-height: 300px;
+            opacity: 1;
+            padding: 10px 20px 20px;
+        }
+
+        .btn-quienes {
+            background: #222;
+            color: #ccc;
+            padding: 10px 15px;
+            margin: 20px auto;
+            border-radius: 30px;
+            cursor: pointer;
+            font-size: 0.9em;
+            border: none;
+            transition: background 0.3s ease;
+        }
+
+        .btn-quienes:hover {
+            background: #333;
         }
 
         /* Banner */
         .banner {
             text-align: center;
-            padding: 40px 20px;
+            padding: 30px 20px;
             background: #1a1a1a;
             border-bottom: 1px solid #222;
         }
 
         .banner h1 {
-            font-size: 2.5em;
+            font-size: 2em;
             margin-bottom: 10px;
+            background: linear-gradient(45deg, #ffffff, #e67e22);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: gradientAnimation 4s ease infinite, glow 1.5s ease-in-out infinite alternate;
         }
 
-        /* Filtro por categoría */
-        .filtro-categorias {
-            text-align: center;
-            padding: 20px;
+        @keyframes glow {
+            from { text-shadow: 0 0 5px #fff, 0 0 10px #fff, 0 0 20px #fff; }
+            to { text-shadow: 0 0 10px #fff, 0 0 20px #fff, 0 0 30px #fff; }
+        }
+
+        /* Sección Destacados */
+        .destacados {
             background: #111;
-            position: sticky;
-            top: 0;
-            z-index: 999;
+            padding: 30px 20px;
+            text-align: center;
         }
 
-        .filtro-categorias button {
-            background: #1a1a1a;
-            border: 1px solid #333;
-            padding: 8px 16px;
-            margin: 0 5px;
-            border-radius: 30px;
+        .destacados h2 {
+            font-size: 1.8em;
+            margin-bottom: 15px;
+        }
+
+        .destacados .subtitulo {
+            font-size: 1em;
             color: #ccc;
-            cursor: pointer;
-            transition: all 0.3s ease;
-        }
-
-        .filtro-categorias button:hover {
-            background: #222;
-            color: #e67e22;
-        }
-
-        /* Catálogo de productos */
-        .catalogo {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
-            gap: 30px;
-            padding: 40px 20px;
+            margin-bottom: 25px;
+            display: block;
         }
 
         .producto {
@@ -106,11 +151,27 @@
             text-align: center;
             transition: transform 0.3s ease;
             padding: 15px;
+            position: relative;
         }
 
         .producto:hover {
             transform: translateY(-5px);
             box-shadow: 0 5px 15px rgba(255,255,255,0.05);
+        }
+
+        /* Badge de Destacado */
+        .producto.destacado::before {
+            content: "Destacado";
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            background: #e67e22;
+            color: white;
+            font-size: 0.8em;
+            padding: 4px 10px;
+            border-radius: 20px;
+            font-weight: bold;
+            z-index: 2;
         }
 
         .producto-imagenes {
@@ -127,7 +188,8 @@
             top: 0;
             left: 0;
             width: 100%;
-            height: auto;
+            height: 100%;
+            object-fit: cover;
             opacity: 0;
             transition: opacity 0.5s ease-in-out;
             pointer-events: none;
@@ -149,44 +211,39 @@
             100% { opacity: 0; z-index: 0; }
         }
 
-        .producto h3 {
-            font-size: 1.2em;
-            margin: 10px 0 5px;
-            color: #fff;
-        }
-
-        .precio {
-            font-weight: bold;
-            color: #ccc;
-            display: block;
-            margin-bottom: 10px;
-        }
-
-        .selector-talla,
-        .selector-color {
-            width: 100%;
-            margin: 5px 0;
-            padding: 8px 12px;
-            border-radius: 6px;
-            border: none;
-            background: #222;
-            color: #ccc;
-            font-size: 0.9em;
-            margin-bottom: 10px;
-        }
-
-        .btn-vermas {
-            background: transparent;
-            border: none;
-            color: #e67e22;
+        .btn-vermas,
+        .btn-agregar-carrito {
+            background: #333;
+            color: #aaa;
             font-size: 0.9em;
             cursor: pointer;
             padding: 8px 12px;
-            transition: color 0.3s ease;
+            border: none;
+            border-radius: 30px;
+            margin-top: 5px;
+            transition: background 0.3s ease, color 0.3s ease;
         }
 
-        .btn-vermas:hover {
-            color: #d35400;
+        .btn-vermas:hover,
+        .btn-agregar-carrito:hover {
+            background: #444;
+            color: #e67e22;
+        }
+
+        .descripcion-producto {
+            max-width: 100%;
+            margin-top: 10px;
+            padding: 0;
+            overflow: hidden;
+            height: 0;
+            opacity: 0;
+            transition: all 0.4s ease;
+        }
+
+        .descripcion-producto.activo {
+            padding: 10px 0;
+            height: auto;
+            opacity: 1;
         }
 
         .btn-contacto {
@@ -294,6 +351,11 @@
             flex-direction: column;
             gap: 10px;
             z-index: 1000;
+            transition: transform 0.3s ease;
+        }
+
+        .redes-flotantes.hide-on-scroll {
+            transform: translateY(100px);
         }
 
         .btn-social {
@@ -327,6 +389,12 @@
         }
 
         .icono-red {
+            width: 24px;
+            height: 24px;
+            pointer-events: none;
+        }
+
+        .icono-carrito {
             width: 24px;
             height: 24px;
             pointer-events: none;
@@ -370,7 +438,6 @@
             color: #e67e22;
         }
 
-        /* Botón toggle mensaje */
         .btn-toggle-mensaje {
             position: fixed;
             left: 20px;
@@ -391,19 +458,28 @@
             display: block;
         }
 
-        .btn-toggle-mensaje:hover {
-            background: #d35400;
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateX(-10px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+
+        .contador-carrito {
+            position: absolute;
+            top: -8px;
+            right: -8px;
+            background: #e67e22;
+            color: white;
+            font-size: 0.7em;
+            font-weight: bold;
+            padding: 5px 8px;
+            border-radius: 50%;
         }
 
         /* Instagram feed */
         .instagram-feed {
-            padding: 40px 20px;
+            padding: 30px 20px;
             background: #111;
             text-align: center;
-        }
-
-        .instagram-gallery {
-            margin-top: 20px;
         }
 
         .instagram-gallery iframe {
@@ -412,7 +488,7 @@
         }
 
         .instagram-feed h2 {
-            font-size: 1.5em;
+            font-size: 1.4em;
             color: #e67e22;
             margin-bottom: 10px;
         }
@@ -420,9 +496,9 @@
         /* Footer */
         .footer {
             background: #000;
-            padding: 30px 20px;
+            padding: 25px 20px;
             text-align: center;
-            margin-top: 60px;
+            margin-top: 50px;
         }
 
         .footer-links {
@@ -440,7 +516,14 @@
             color: #e67e22;
         }
 
-        /* Responsive */
+        /* Catálogo de productos */
+        .catalogo {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+            gap: 30px;
+            padding: 30px 20px;
+        }
+
         @media (max-width: 768px) {
             .catalogo {
                 grid-template-columns: 1fr;
@@ -448,7 +531,33 @@
             }
 
             .producto-imagenes {
-                height: 300px;
+                height: 260px;
+            }
+
+            .producto h3 {
+                font-size: 1em;
+            }
+
+            .precio {
+                font-size: 0.9em;
+            }
+
+            .selector-talla,
+            .btn-vermas,
+            .btn-agregar-carrito {
+                font-size: 0.8em;
+            }
+
+            .btn-social {
+                width: 40px;
+                height: 40px;
+                font-size: 20px;
+            }
+
+            .icono-red,
+            .icono-carrito {
+                width: 20px;
+                height: 20px;
             }
 
             .carrito-flotante {
@@ -472,27 +581,6 @@
                 font-size: 0.9em;
                 padding: 8px 12px;
             }
-
-            .selector-talla,
-            .selector-color {
-                font-size: 0.8em;
-                padding: 6px 10px;
-            }
-
-            .btn-vermas {
-                font-size: 0.8em;
-            }
-
-            .btn-social {
-                width: 40px;
-                height: 40px;
-                font-size: 20px;
-            }
-
-            .icono-red {
-                width: 20px;
-                height: 20px;
-            }
         }
     </style>
 
@@ -500,7 +588,7 @@
     <script>
         let carrito = [];
         let carritoVisible = false;
-        let mensajeVisible = true;
+        let quienesVisible = false;
 
         // Mostrar u ocultar carrito
         function toggleCarrito() {
@@ -510,7 +598,7 @@
         }
 
         // Agregar al carrito
-        function agregarAlCarrito(nombre, precio, talla = '', color = '') {
+        function addToCart(nombre, precio, talla = '', color = '') {
             carrito.push({ nombre, precio, talla, color });
             actualizarCarrito();
         }
@@ -519,6 +607,7 @@
         function actualizarCarrito() {
             const lista = document.getElementById("lista-carrito");
             const total = document.getElementById("total");
+            const contador = document.getElementById("contador-carrito");
             lista.innerHTML = "";
             let totalPrecio = 0;
 
@@ -533,6 +622,7 @@
             });
 
             total.textContent = totalPrecio.toFixed(2);
+            contador.textContent = carrito.length;
         }
 
         // Vaciar carrito
@@ -542,8 +632,8 @@
         }
 
         // Enviar por WhatsApp
-        function enviarPorWhatsApp(e) {
-            e.preventDefault();
+        function enviarPorWhatsApp(event) {
+            event.preventDefault();
 
             if (carrito.length === 0) {
                 alert("Tu carrito está vacío");
@@ -577,6 +667,19 @@
                     current = (current + 1) % images.length;
                 }, 3000);
             });
+
+            // Ocultar botones al hacer scroll
+            let lastScrollTop = 0;
+            const redesFlotantes = document.querySelector('.redes-flotantes');
+            window.addEventListener('scroll', () => {
+                const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+                if (scrollTop > lastScrollTop && scrollTop > 100) {
+                    redesFlotantes.classList.add('hide-on-scroll');
+                } else {
+                    redesFlotantes.classList.remove('hide-on-scroll');
+                }
+                lastScrollTop = scrollTop;
+            });
         });
 
         // Filtro de productos
@@ -599,12 +702,26 @@
             btnToggle.style.display = "block";
         }
 
-        // Volver a abrir el mensaje
+        // Volver a abrir mensaje
         function toggleMensaje() {
             const mensaje = document.querySelector(".mensaje-flotante");
             const btnToggle = document.getElementById("btn-toggle-mensaje");
             mensaje.style.display = "block";
             btnToggle.style.display = "none";
+        }
+
+        // Mostrar/ocultar descripción
+        function toggleDescripcion(id) {
+            const descripcion = document.getElementById(id);
+            const carrito = document.querySelector(".carrito-flotante");
+            descripcion.classList.toggle("activo");
+            carrito.style.display = "none";
+        }
+
+        // Mostrar/ocultar Quienes somos
+        function toggleQuienes() {
+            const quienes = document.querySelector(".quienes-somos");
+            quienes.classList.toggle("activo");
         }
     </script>
 </head>
@@ -615,6 +732,52 @@
         <div class="logo">BZN MX</div>
         <p>Streetwear Urbano | Temporada 2025</p>
     </header>
+
+    <!-- SECCIÓN DESTACADOS -->
+    <section id="destacados" class="destacados">
+        <h2>Destacados</h2>
+        <p class="subtitulo">Lo más buscado por nuestra comunidad</p>
+
+        <!-- HODDIE BZN DESING -->
+        <div class="producto destacado hoddie">
+            <div class="producto-imagenes">
+                <img src="images/hoddie-bzn-frontal.webp" alt="Producto 1" class="imagen-activa">
+                <img src="images/hoddie-bzn-trasera.webp" alt="Producto 2">
+                <img src="images/hoddie-bzn-lado.webp" alt="Producto 3">
+            </div>
+            <h3>BZN DESING - Hoodie</h3>
+            <p>$689.00 c/u</p>
+            
+            <!-- Selector de talla -->
+            <select class="selector-talla" onchange="this.setAttribute('data-talla', this.value);">
+                <option value="">Talla</option>
+                <option value="S">S</option>
+                <option value="M">M</option>
+                <option value="L">L</option>
+                <option value="XL">XL</option>
+            </select>
+
+            <!-- Botón para agregar al carrito -->
+            <button onclick="addToCart(
+                'BZN DESING - Hoodie',
+                '$689.00',
+                this.parentNode.querySelector('.selector-talla').value
+            )" class="btn-agregar-carrito">🛒 Agregar al carrito</button>
+
+            <!-- Botón de descripción -->
+            <button onclick="toggleDescripcion('desc4')" class="btn-vermas">📝 Ver detalles</button>
+
+            <!-- Descripción del producto -->
+            <div id="desc4" class="descripcion-producto">
+                <p>
+                    Sudadera con capucha estilo urbano, tejido grueso y logo "BZN" estampado en el frente. Ideal para uso diario y look fresco. Manteniendo un look minimalista.
+                </p>
+            </div>
+
+            <!-- Botón WhatsApp -->
+            <a href="https://wa.me/529221458012?text=Hola%20tengo%20interés%20en%20una%20prenda" target="_blank" class="btn-contacto whatsapp">💬 WhatsApp</a>
+        </div>
+    </section>
 
     <!-- BANNER -->
     <section class="banner">
@@ -653,18 +816,24 @@
             </select>
 
             <!-- Botón para agregar al carrito -->
-            <button onclick="agregarAlCarrito(
+            <button onclick="addToCart(
                 'Hoddie Oversize Negro REVENGUE',
                 '$689.00',
                 this.parentNode.querySelector('.selector-talla').value
-            )" class="btn-vermas">➕ Agregar al carrito</button>
+            )" class="btn-agregar-carrito">🛒 Agregar al carrito</button>
+
+            <!-- Botón de descripción -->
+            <button onclick="toggleDescripcion('desc1')" class="btn-vermas">📝 Ver detalles</button>
+
+            <!-- Descripción del producto -->
+            <div id="desc1" class="descripcion-producto">
+                <p>
+                    Si quieres llamar la atención... La Hoodie con capucha estilo urbano con tejido grueso con un diseño "TRIBAL" es lo que estas buscando. Ideal para uso nocturno en clima fresco y look casual.
+                </p>
+            </div>
 
             <!-- Botón WhatsApp -->
-            <a href="#" onclick="agregarAlCarrito( 
-                'Hoddie Oversize Negro REVENGUE',
-                '$689.00',
-                'N/A'
-            )" class="btn-contacto whatsapp">💬 WhatsApp</a>
+            <a href="https://wa.me/529221458012?text=Hola%20tengo%20interés%20en%20una%20prenda" target="_blank" class="btn-contacto whatsapp">💬 WhatsApp</a>
         </div>
 
         <!-- PANTALÓN NIGHT RIDER -->
@@ -673,7 +842,7 @@
                 <img src="images/pans-nike-frontal.webp" alt="Producto 1" class="imagen-activa">
                 <img src="images/pans-nike-lado.webp" alt="Producto 2">
             </div>
-            <h3>NIGHT RIDER - Pant</h3>
+            <h3>NIGHT RIDER - Pants</h3>
             <p>$449.00 c/u</p>
             
             <!-- Selector de talla -->
@@ -686,27 +855,33 @@
             </select>
 
             <!-- Botón para agregar al carrito -->
-            <button onclick="agregarAlCarrito(
+            <button onclick="addToCart(
                 'NIGHT RIDER - Pant',
                 '$449.00',
                 this.parentNode.querySelector('.selector-talla').value
-            )" class="btn-vermas">➕ Agregar al carrito</button>
+            )" class="btn-agregar-carrito">🛒 Agregar al carrito</button>
+
+            <!-- Botón de descripción -->
+            <button onclick="toggleDescripcion('desc2')" class="btn-vermas">📝 Ver detalles</button>
+
+            <!-- Descripción del producto -->
+            <div id="desc2" class="descripcion-producto">
+                <p>
+                    Pants con logo NIKE bordado. Con una textura suave y tejido transpirable. Ideal para el día a día.
+                </p>
+            </div>
 
             <!-- Botón WhatsApp -->
-            <a href="#" onclick="agregarAlCarrito(
-                'NIGHT RIDER - Pant',
-                '$449.00',
-                'N/A'
-            )" class="btn-contacto whatsapp">💬 WhatsApp</a>
+            <a href="https://wa.me/529221458012?text=Hola%20tengo%20interés%20en%20una%20prenda" target="_blank" class="btn-contacto whatsapp">💬 WhatsApp</a>
         </div>
 
-        <!-- CAMISETA URBAN FLOW -->
+        <!-- CAMISETA URBAN STYLE -->
         <div class="producto camiseta">
             <div class="producto-imagenes">
                 <img src="images/camiseta-frontal.webp" alt="Producto 1" class="imagen-activa">
                 <img src="images/camiseta-trasera.webp" alt="Producto 2">
             </div>
-            <h3>Urban Flow Cami</h3>
+            <h3>Camiseta Urban Style</h3>
             <p>$389.00 c/u</p>
             
             <!-- Selector de talla -->
@@ -727,20 +902,25 @@
             </select>
 
             <!-- Botón para agregar al carrito -->
-            <button onclick="agregarAlCarrito(
+            <button onclick="addToCart(
                 'Urban Flow Cami',
                 '$389.00',
                 this.parentNode.querySelector('.selector-talla').value,
                 this.parentNode.querySelector('.selector-color').value
-            )" class="btn-vermas">➕ Agregar al carrito</button>
+            )" class="btn-agregar-carrito">🛒 Agregar al carrito</button>
+
+            <!-- Botón de descripción -->
+            <button onclick="toggleDescripcion('desc3')" class="btn-vermas">📝 Ver detalles</button>
+
+            <!-- Descripción del producto -->
+            <div id="desc3" class="descripcion-producto">
+                <p>
+                    Camiseta corte OVERSIZE BOXYFIT color negro. Ideal para lucir casual y fresco todo el día. Con un cuello redodno que se ajusta bien a tu cuello permitiendote lucir sofisticado y con un look diferente.
+                </p>
+            </div>
 
             <!-- Botón WhatsApp -->
-            <a href="#" onclick="agregarAlCarrito(
-                'Urban Flow Cami',
-                '$389.00',
-                'N/A',
-                'N/A'
-            )" class="btn-contacto whatsapp">💬 WhatsApp</a>
+            <a href="https://wa.me/529221458012?text=Hola%20tengo%20interés%20en%20una%20prenda" target="_blank" class="btn-contacto whatsapp">💬 WhatsApp</a>
         </div>
 
     </main>
@@ -750,12 +930,37 @@
         <h2>Síguenos en Instagram</h2>
         <div class="instagram-gallery">
             <iframe 
-                src="https://www.instagram.com/reel/DJSTVNsp7jD/embed"  
+                src="https://www.instagram.com/reel/DJSTVNsp7jD/embed" 
                 scrolling="no" 
                 frameborder="0" 
                 allowtransparency="true" 
                 style="width: 100%; height: 300px; border: none;"></iframe>
         </div>
+    </section>
+
+    <!-- SECCIÓN QUIENES SOMOS -->
+    <section class="quienes-somos">
+        <h2 onclick="toggleQuienes()" class="btn-quienes">📝 Quienes somos</h2>
+        <p id="texto-quienes" class="texto-quienes">
+            Somos dos hermanos, nacidos en Veracruz, México.
+ Venimos del sur, donde los sueños a veces parecen lejanos… pero nunca imposibles.
+BZN MX nació como una idea entre pláticas, libretas rayadas y ganas de hacer algo que de verdad significara algo.
+ Hoy es nuestro proyecto, nuestro manifiesto, y nuestra forma de dejar huella.
+Nuestro sueño no es solo crear ropa.
+ Es construir una marca que inspire, que motive a los demás a creer en sí mismos, a vestirse con decisión, a atreverse a ser distintos.
+Creamos prendas que cargan con un mensaje silencioso, pero visible:
+No necesitas gritar para que el mundo te escuche.
+ 
+Cada corte oversized, cada textil pesado,  cada prenda representa firmeza, identidad y carácter. Porque eso es lo que somos.
+BZN MX es para todos los que alguna vez se sintieron fuera de lugar y decidieron crear su propio mundo.
+ Es para los que no esperan aprobación, para los que caminan con la frente en alto y dejan que su energía hable por ellos.
+
+Estamos construyendo esto desde abajo, con trabajo real y sueños grandes.
+ Y si algo queremos que recuerdes es que  si nosotros lo estamos haciendo, tú también puedes.
+Esto no es solo ropa
+es el principio de algo más grande.
+Bienvenidos a BZN MX.
+        </p>
     </section>
 
     <!-- CARRO DE COMPRAS FLOTANTE -->
@@ -768,7 +973,7 @@
         <div class="carrito-resumen">
             <p><strong>Total:</strong> $<span id="total">0</span>.00</p>
             <button onclick="vaciarCarrito()" class="btn-vaciar">🗑️ Vaciar</button>
-            <a href="#" onclick="enviarPorWhatsApp(event)" class="btn-whatsapp-carrito">Enviar por WhatsApp</a>
+            <a href="#" onclick="enviarPorWhatsApp(event)" class="btn-whatsapp-carrito">Enviar por WhatsApp</a> 
         </div>
     </div>
 
@@ -787,12 +992,13 @@
     <div class="redes-flotantes">
         <a href="https://wa.me/529221458012"  target="_blank" class="btn-social whatsapp">
             <img src="images/whatsapp.png" alt="WhatsApp" class="icono-red">
+            <span id="contador-carrito" class="contador-carrito">0</span>
         </a>
         <a href="https://www.instagram.com/bzn_clothing"  target="_blank" class="btn-social instagram">
             <img src="images/instagram.png" alt="Instagram" class="icono-red">
         </a>
         <button onclick="toggleCarrito()" class="btn-social carrito-icono">
-            <span>🛒</span>
+            <img src="images/carrito.png" alt="Carrito" class="icono-carrito">
         </button>
     </div>
 
